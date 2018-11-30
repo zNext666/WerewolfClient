@@ -58,6 +58,7 @@ namespace WerewolfClient
             Alive = 15,
             Chat = 16,
             ChatMessage = 17,
+            SignOut = 18,
         }
         public const string ROLE_SEER = "Seer";
         public const string ROLE_AURA_SEER = "Aura Seer";
@@ -370,14 +371,14 @@ namespace WerewolfClient
                 InitilizeModel(server);
                 Player p = new Player(null, login, password, null, null, null, Player.StatusEnum.Offline);
                 _player = _playerEP.LoginPlayer(p);
-                Console.WriteLine(_player.Session);
+                //Console.WriteLine(_player.Session);
                 _event = EventEnum.SignIn;
-                _eventPayloads["Success"] = TRUE;
+                _eventPayloads["Success"] = WerewolfModel.TRUE;
             } catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 _event = EventEnum.SignIn;
-                _eventPayloads["Success"] = FALSE;
+                _eventPayloads["Success"] = WerewolfModel.FALSE;
                 _eventPayloads["Error"] = ex.ToString();
             }
             NotifyAll();
@@ -396,13 +397,39 @@ namespace WerewolfClient
             } catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex);
                 _event = EventEnum.SignUp;
                 _eventPayloads["Success"] = FALSE;
                 _eventPayloads["Error"] = ex.ToString();
             }
             NotifyAll();
         }
+        public void SignOut()
+        {
+            try
+            {
+                List<Player> apiInstance = new List<Player>();
+                string sessionID = _player.Session;
+                Player _playerId = _playerEP.GetPlayerById(_player.Id);
+                //long? id = _playerId.Id;
+                Console.WriteLine(("Player sessionID : " + sessionID).ToString());
+                Console.WriteLine(("PlayerID : " + _playerId.Id).ToString());
+                // Player logout
+                apiInstance = _playerEP.LogoutPlayer(sessionID);
+                //apiInstance = _playerEP.DeletePlayer(id);
+                _event = EventEnum.SignOut;
+                _eventPayloads["Success"] = WerewolfModel.TRUE;
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                _event = EventEnum.SignOut;
+                _eventPayloads["Success"] = WerewolfModel.FALSE;
+                _eventPayloads["Error"] = e.ToString();
+            }
+            NotifyAll();
+        }
         public void Vote(string target)
         {
             try

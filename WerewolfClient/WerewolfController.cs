@@ -19,6 +19,7 @@ namespace WerewolfClient
             Vote = 7,
             Action = 8,
             Chat = 9,
+            Description = 69,
         };
         public new CommandEnum Action { get; set; }
     }
@@ -75,6 +76,9 @@ namespace WerewolfClient
                             break;
                         case WerewolfCommand.CommandEnum.Chat:
                             wm.Chat(cmd.Payloads["Message"]);
+                            break;
+                        case WerewolfCommand.CommandEnum.Description:
+                            wm.Description();
                             break;
                     }
                 }

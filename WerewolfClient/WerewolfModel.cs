@@ -59,6 +59,7 @@ namespace WerewolfClient
             Chat = 16,
             ChatMessage = 17,
             SignOut = 18,
+            Description = 69,
         }
         public const string ROLE_SEER = "Seer";
         public const string ROLE_AURA_SEER = "Aura Seer";
@@ -74,8 +75,6 @@ namespace WerewolfClient
         public const string ROLE_FOOL = "Fool";
         public const string ROLE_HEAD_HUNTER = "Head Hunter";
         public const string ROLE_SERIAL_KILLER = "Serial Killer";
-
-
         public const string ROLE_GUNNER = "Gunner";
 
         public const string ACTION_DAY_VOTE = "Day Vote";
@@ -410,10 +409,10 @@ namespace WerewolfClient
             {
                 List<Player> apiInstance = new List<Player>();
                 string sessionID = _player.Session;
-                Player _playerId = _playerEP.GetPlayerById(_player.Id);
+                //Player _playerId = _playerEP.GetPlayerById(_player.Id);
                 //long? id = _playerId.Id;
                 Console.WriteLine(("Player sessionID : " + sessionID).ToString());
-                Console.WriteLine(("PlayerID : " + _playerId.Id).ToString());
+                //Console.WriteLine(("PlayerID : " + _playerId.Id).ToString());
                 // Player logout
                 apiInstance = _playerEP.LogoutPlayer(sessionID);
                 //apiInstance = _playerEP.DeletePlayer(id);
@@ -511,6 +510,15 @@ namespace WerewolfClient
             //reset event
             _event = EventEnum.NOP;
             _eventPayloads.Clear();
+        }
+
+        public void Description()
+        {
+            Console.WriteLine(_playerRole.Name.ToString());
+            _event = EventEnum.Description;
+            _eventPayloads["Description"] = "test Description Role";
+            NotifyAll();
+            
         }
     }
 }

@@ -303,6 +303,10 @@ namespace WerewolfClient
 
                         break;
 
+                    case EventEnum.Description:
+                        AddChatMessage(wm.EventPayloads["Description"].ToString());
+                        break;
+
 
                 }
                 // need to reset event
@@ -406,7 +410,13 @@ namespace WerewolfClient
             wcmd.Payloads = new Dictionary<string, string>() { { "Server", tmp.GetServer_payload() } };
             controller.ActionPerformed(wcmd);
         }
-
+        private void BtnDes_Click(object sender, EventArgs e)
+        {
+            WerewolfCommand wcmd = new WerewolfCommand();
+            wcmd.Action = CommandEnum.Description;
+            //wcmd.Payloads = new Dictionary<string, string>() { }
+            controller.ActionPerformed(wcmd);
+        }
         public void AddLoginForm(Login form)
         {
             _loginForm = form;
